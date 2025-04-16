@@ -644,6 +644,13 @@ describe("manifest.section.TcfEuV2", (): void => {
     expect(tcfEuV2.getFieldValue("VendorLegitimateInterests")).to.eql([2, 6, 8, 12, 18, 23, 37, 42]);
   });
 
+  it("should decode this actual TcfEuv2 string without any error", (): void => {
+    const actualConsentString = 'CPi8wgAPi8wgAAOACBENCuCoAP_AAEfAACiQJHNd_H__bX9n-f7_6ft0eY1f9_r37uQzDhfNk-8F3L_W_LwX_2E7NF36tq4KmR4ku1LBIUNtHMnUDUmxaokVrzHsak2cpzNKJ_BkknsZe2dYGF9vm5tj-QKZ7_5_d3f52T_9_9v-39z33913v3d93-_13LjdV5_9H_v9fR_b8_Kf9_5-_4v8_____3_e______8AEEggCTDVuIAuxLHAm0DCKBECMKwkKoFABBQDC0QGADg4KdlYBPrCBAAgFAEYEQIcAUYEAgAAAgCQiACQIsEAAAIgEAAIAEQiEABAwCCgAsDAIAAQDQMUQoABAkIMiAiKUwICIEggJbKhBKC6Q0wgCrLACgkRsFAAiAAAUgACAsHAMESAlYsECTFG-QAjBCgFEqFaAGGgAwABBI4RABgACCRwqADAAEEjgA';
+    // Currently this fails with "DecodingError: Undecodable Boolean ''".
+    let decodedWithThisLibrary = new TcfEuV2(actualConsentString)
+    expect(decodedWithThisLibrary.getFieldValue('CmpId')).to.equal(14);
+  });
+  
   it("should throw Error on garbage 1", (): void => {
     expect(function () {
       new TcfEuV2("A").getFieldValue("PolicyVersion");
